@@ -1,0 +1,36 @@
+body {
+		;
+		}
+#sandbox{ 
+	width: 1500px;
+	height: 1000px;
+	background-color: #F8F8F8 ;
+	margin: 0 auto;
+	
+	}
+#noticia{
+	
+	width:100%;
+	border-radius: 20px;
+	height: 600px;
+	margin: 0 auto;
+	}	
+#titulos{
+	font-size:30px; 
+	margin-left:100px;
+	}
+#imagen{
+	float: left; 
+	margin-left:90px;
+	margin-right:50px;
+	}
+	
+#texto{
+	float: rigth; 
+	margin-left:400px;
+	}
+#parrafo{
+	font-size:24px; 
+	margin-left:100px;
+	margin-bottom:500px;
+	}
