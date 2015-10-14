@@ -1,51 +1,58 @@
 <!DOCTYPE html>
-<html>
 <head>
-	<title> Pensamiento Visual</title>
-	<link rel="stylesheet" href="estile.css " type="text/css"> </link>
-</head>
-<body>
-	<div id="sandbox"  >
-		<div style="background-image:Reciclaje.jpg;">
-		<h1 style="font-size:60px;" ALIGN=center><u>El Ingreso economico y el reciclaje en cada comuna</u></h1><hr>
-		<nav style=" ; font-size:34px; font-family:Courier New;" ALIGN=center >
-			
-			<a href="index.html">Nuestro Proyecto</a> |
-			<a href="index2.html">Acerca de nosotros</a> |
-			<a href="index3.html">Base de Datos</a> |
-			<a href="index4.html">Contactenos</a>
-			</nav><hr>
-		</div>
-		
-		<div id="noticia" style="background-color:#F0F0F0 ;">
-			<h2 id="titulos" style="background-color:#F0F0F0 ;"> Selecciona una comuna:</h2>
-			<div id="imagen">
-				<img SRC="santiagopng.png" >
-			</div>
-			<div id="texto">
-				<table style="heigth:400px;  ">
-			<tr><td style="padding:30px; padding-bottom:900px; ">
-			<div style="border: 1px solid; background-color:#E0E0E0 ; border-radius:20px;padding-bottom:30px;" >
-				<p style="margin:10px; margin-left:30px; font-size:30px;"><b><ins>Seleccionar Comuna</ins></b></p>
-				<form  style="margin: 10px;margin-left:30px; width:450px; font-size:22px;">
-					<select  style="margin-top: 10px; padding-left:20px">
-						<option  value="2317">Las Condes</option>
-						<option  value="4141">San Joaquin</option>
-						<option  value="5590">Talagante</option>
-						
-					</select><br>
-					<input  type="checkbox" style=""> Mostrar consumo energetico promedio</input><br>
-					<input type="button" onclick="buscar();" value="Buscar"></input>
-				</form>
-			
-			</div>
-				<p id="parrafo"> </p>
-			</div>
-		</div>
+<meta charset="utf-8">
+<script type="text/javascript" src="paises.js"></script> <!-- creates uStates. -->
 
-	</div>
+<link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+<div id="tooltip"></div><!-- div to hold tooltip. -->
+
+<svg width="1460" height="800" id="statesvg"></svg> <!-- svg to hold the map. -->
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+
+	function tooltipHtml(n, d){	/* function to create html content string in tooltip div. */
+		return "<h4>"+n+"</h4><table>"+
+			"<tr><td>PIB per capita ($US)</td><td>"+(d.pib)+"</td></tr>"+
+			"<tr><td>% del pib destinado  a investigacion</td><td>"+(d.inv)+"</td></tr>"+
+			"<tr><td>Toneladas de CO2</td><td>"+(d.co2)+"</td></tr>"+
+			"</table>";
+	}
+
+
+
+
+	var sampleData ={};	
+	var c=0;
+
+	["ALE","ARG","ARG2","AUS","AUT","BR","BGR","BEL","CHN","CAN","COL","KR","CRI","CRO","CUB","DIN","ESP","USA","RUS","FIN","FR","GRC","IND","IRL","ISR","ITA","MEX","NOR","NZL2","NZL","PAN"]
+		.forEach(function(d){ 
+
+			sampleData[d]={pib:paisesPath[c].pib, inv:paisesPath[c].inv	,co2:paisesPath[c].co2, color:"#FFADAD"}; 
+			c=c+1;
+		});
+
+
+
+		
+	paises.draw("#statesvg", sampleData, tooltipHtml);
 	
+	var sampleData2={};
 	
+	["tierra"]
+		.forEach(function(d){ 
+			var low=Math.round(100*Math.random()), 
+				mid=Math.round(100*Math.random()), 
+				high=Math.round(100*Math.random());
+			sampleData2[d]={low:d3.min([low,mid,high]), high:d3.max([low,mid,high]), 
+					avg:Math.round((low+mid+high)/3), color:"#DBDBDC"}; 
+		});
 	
+	paisesInutiles.draw("#statesvg",sampleData2);
+
+	</script>
+--!>
 </body>
-</html>
