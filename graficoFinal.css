@@ -1,0 +1,123 @@
+.chart-legend li span{
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
+}
+
+.botones {
+	padding-top: 10px;
+	text-align: center;
+	background-color: #b9ccf4;
+	padding-bottom: 50px;
+
+}
+
+.regular{
+	border-radius: 75px;
+	width: 150px;
+	height: 150px;
+	text-align: center;
+	background: url(monedas.svg) 0 0;
+	background-color: white;
+
+}
+
+.regular2{
+	border-radius: 75px;
+	width: 150px;
+	height: 150px;
+	text-align: center;
+	background: url(contaminacion.svg) 0 0;;
+	background-color: white;
+
+}
+
+.regular3{
+	border-radius: 75px;
+	width: 150px;
+	height: 150px;
+	text-align: center;
+	background: url(inversion.svg) 0 0;;
+	background-color: white;
+}
+
+.grafico {
+	background-color: #b9ccf4;
+}
+.legend {
+	padding-top: 150px;
+	padding-left: 50px;
+	font-size: 18px;
+}
+
+.mapa {
+	text-align: center;
+	height: 750px;
+	background-color: #8b9aba	
+}
+
+.mapamundi {
+	padding-top: 50px;
+}
+
+.state{
+		fill: none;
+		stroke: #a9a9a9;
+		stroke-width: 1;
+
+	}
+	.state:hover{
+		fill-opacity:0.5;
+	}
+
+	.tierra{
+		color:#DBDBDC;
+	}
+	#tooltip {   
+		position: absolute;           
+		text-align: center;
+		padding: 20px;             
+		margin: 10px;
+		font: 12px sans-serif;        
+		background: lightsteelblue;   
+		border: 1px;      
+		border-radius: 20px;           
+		pointer-events: none;   
+
+	}
+	#tooltip h4{
+		margin:0;
+		font-size:14px;
+	}
+	#tooltip{
+		background:rgba(0,0,0,0.9);
+		border:1px solid grey;
+		border-radius:5px;
+		font-size:12px;
+		width:auto;
+		padding:4px;
+		color:white;
+		opacity:0;
+	}
+	#tooltip table{
+		table-layout:fixed;
+	}
+	#tooltip tr td{
+		padding:0;
+		margin:0;
+	}
+	#tooltip tr td:nth-child(1){
+		width:50px;
+	}
+	#tooltip tr td:nth-child(2){
+		text-align:center;
+	}
+
+.graficosRadar{
+	padding-top: 100px
+
+}
+
+
+

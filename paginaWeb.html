@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>web</title>
+        <script src='Chart.min.js'></script>
+        <link href="graficoFinal.css" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="paises.js"></script>
+    </head>
+    <body>
+    <div class="mapa">
+	    <div class="row">
+	    	<div class="col-md-1"></div>
+			<div class="col-md-10">
+				<div id="tooltip"></div>
+				<div class="mapamundi">
+					<svg width="1100" height="700" id="statesvg"></svg>
+				</div>
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+	</div>
+
+    <div class="botones">
+	    <div class="row">
+	    	<div class="col-md-4">
+	    		<h2>PIB</h2>
+	    		<input type="button" class="regular"  id="bt1" onclick="aparecerGrafico(canvasesdiv, legendDiv, canvasesdiv2, legendDiv2, canvasesdiv3, legendDiv3);";>
+	    		<h3>Producto interno bruto per cápita</h3>
+	    		<h4>(Dólares por persona)</h4>
+	    	</div>
+	    	<div class="col-md-4">
+	    		<h2>CO2</h2>
+	    		<input type="button" class="regular2" id="bt2" onclick="aparecerGrafico(canvasesdiv2, legendDiv2, canvasesdiv, legendDiv, canvasesdiv3, legendDiv3);";>
+	    		<h3>Contaminación de CO2 </h3>
+	    		<h4>(Toneladas métricas per cápita)</h4>
+	    	</div>
+	    	<div class="col-md-4">
+	    		<h2>INV</h2>
+	    		<input type="button" class="regular3" id="bt3" onclick="aparecerGrafico(canvasesdiv3, legendDiv3, canvasesdiv, legendDiv, canvasesdiv2, legendDiv2);";>
+	    		<h3>Porcetanje de PIB dedicado a desarrollo tecnológico</h3>
+	    		<h4>(% del PIB)</h4>
+	    	</div>
+	    </div>
+ 	</div>
+    <div class="grafico" style="height:450px">
+	    <div class="row">
+	    	<div class="col-md-3"></div>
+	    	<div class="col-md-5">
+			   	<div id="canvasesdiv" style="position:relative; width:400px; height:300px">
+			    	<canvas id="layer1" style="z-index: 2; position:absolute; left:0px; top:0px" height="400px" width="600"></canvas>
+			    </div>
+			    <div id="canvasesdiv2" style="position:relative; width:400px; height:300px">
+			    	<canvas id="layer2" style="z-index: 1; position:absolute; left:0px; top:0px" height="400px" width="600"></canvas>
+			    </div>
+			    <div id="canvasesdiv3" style="position:relative; width:400px; height:300px">
+			    	<canvas id="layer3" style="z-index: 1; position:absolute; left:0px; top:0px" height="400px" width="600"></canvas>
+			    </div>
+			</div>
+			<div class="col-md-2">
+				<div class="legend">
+					<div id="legendDiv" class="chart-legend"></div>
+			    	<div id="legendDiv2" class="chart-legend"></div>
+			    	<div id="legendDiv3" class="chart-legend"></div>
+				</div>
+			</div>
+			<div class="col-md-2"></div>
+
+	    </div>
+    </div>
+   	
+   
+
+    
+
+
+
+
+
+
+   	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script>
+		function tooltipHtml(n, d){	/* function to create html content string in tooltip div. */
+			return "<h4>"+n+"</h4><table>"+
+				"<tr><td>PIB per capita ($US)</td><td>"+(d.pib)+"</td></tr>"+
+				"<tr><td>% del pib destinado  a investigacion</td><td>"+(d.inv)+"</td></tr>"+
+				"<tr><td>Toneladas de CO2</td><td>"+(d.co2)+"</td></tr>"+
+				"</table>";
+		}
+		var sampleData ={};	
+		var c=0;
+
+		["ALE","ARG","ARG2","AUS","AUT","BR","BGR","BEL","CHN","CAN","COL","KR","CRI","CRO","CUB","DIN","ESP","USA","RUS","FIN","FR","GRC","IND","IRL","ISR","ITA","MEX","NOR","NZL2","NZL","PAN"]
+			.forEach(function(d){ 
+
+				sampleData[d]={pib:paisesPath[c].pib, inv:paisesPath[c].inv	,co2:paisesPath[c].co2, color:"#FFADAD"}; 
+				c=c+1;
+			});	
+		paises.draw("#statesvg", sampleData, tooltipHtml);
+		
+		var sampleData2={};
+		
+		["tierra"]
+			.forEach(function(d){ 
+				var low=Math.round(100*Math.random()), 
+					mid=Math.round(100*Math.random()), 
+					high=Math.round(100*Math.random());
+				sampleData2[d]={low:d3.min([low,mid,high]), high:d3.max([low,mid,high]), 
+						avg:Math.round((low+mid+high)/3), color:"#DBDBDC"}; 
+			});
+		
+		paisesInutiles.draw("#statesvg",sampleData2);
+	</script>
+
+
+   	<script>
+  
+	var layer1 = document.getElementById("layer1").getContext("2d");
+	
+	var barDataPIB = {
+	labels : ["Alemania","Argentina","Australia","Austria","Brasil","Bulgaria","Belgica","China","Canada","Colombia","Corea del Norte","Costa Rica","Croacia","Cuba","Dinamarca","España","Estados Unidos","Rusia","Finlandia","Francia","Grecia","India","Irlanda","Israel","Italia","Mexico","Noruega","Nueva Zelanda","Panama"],
+	datasets : [
+		{
+			label: "Pais",
+			fillColor : "#29944a",
+			strokeColor : "#29944a",
+			data : [45867.76,13439.94,62133.61,51130.96,13042.19,7588.80,47801.59,5574.18,52086.53,7227.77, 24155.82, 8963.68,14539.18,6092.61,61304.06,31973.01,49781.35,13323.88,50787.56,43807.47,25962.36,1471.65,51948.34,33275.15,38364.94,9730.27,100575.11,37896.85,9036.03]
+		},
+		{
+			label: "Promedio",
+			fillColor : "#91cea4",
+			strokeColor : "#91cea4",
+			data : [32169.55,32169.55,32169.55,32169.55,32169.55,32169.55,32169.55,32169.55,32169.55,32169.55,32169.55,32169.55,32169.55,32169.55,32169.55,32169.55,32169.55,32169.55,32169.55,32169.55,32169.55,32169.55,32169.55,32169.55,32169.55,32169.55,32169.55,32169.55,32169.55]
+		}
+
+	]
+	}
+
+
+	
+	var myLineChart = new Chart(document.getElementById("layer1").getContext("2d")).Bar(barDataPIB);
+	document.getElementById("legendDiv").innerHTML = myLineChart.generateLegend();
+
+
+
+var layer2 = document.getElementById("layer2").getContext("2d");
+
+var barDataCO2 = {
+			labels : ["Alemania","Argentina","Australia","Austria","Brasil","Bulgaria","Belgica","China","Canada","Colombia","Corea del Norte","Costa Rica","Croacia","Cuba","Dinamarca","España","Estados Unidos","Rusia","Finlandia","Francia","Grecia","India","Irlanda","Israel","Italia","Mexico","Noruega","Nueva Zelanda","Panama"],
+			datasets : [
+				{
+			label: "Pais",
+			fillColor : "#69695f",
+			strokeColor : "#69695f",
+			data : [8.91, 4.56, 16.51, 7.76, 2.19, 6.71, 8.84, 6.71, 14.13, 1.56, 11.84, 1.70, 4.80 , 3.17 , 7.24, 5.79, 17.02, 12.64, 10.16, 5.18, 7.55, 1.66, 7.88, 8.95, 6.70, 3.87, 9.19, 7.12, 2.62]
+		},
+		{
+			label: "Promedio",
+			fillColor : "#bbbbaa",
+			strokeColor : "#bbbbaa",
+			data : [7.41,7.41,7.41,7.41,7.41,7.41,7.41,7.41,7.41,7.41,7.41,7.41,7.41,7.41,7.41,7.41,7.41,7.41,7.41,7.41,7.41,7.41,7.41,7.41,7.41,7.41,7.41,7.41,7.41]
+		}
+
+			]
+			}
+
+	var myLineChart2 = new Chart(document.getElementById("layer2").getContext("2d")).Bar(barDataCO2);
+	document.getElementById("legendDiv2").innerHTML = myLineChart2.generateLegend();
+
+
+	var layer3 = document.getElementById("layer3").getContext("2d");
+
+	var barDataINV = {
+			labels : ["Alemania","Argentina","Australia","Austria","Brasil","Bulgaria","Belgica","China","Canada","Colombia","Corea del Norte","Costa Rica","Croacia","Cuba","Dinamarca","España","Estados Unidos","Rusia","Finlandia","Francia","Grecia","India","Irlanda","Israel","Italia","Mexico","Noruega","Nueva Zelanda","Panama"],
+			datasets : [
+				{
+			label: "Pais",
+			fillColor : "#48A4D1",
+			strokeColor : "#48A4D1",
+			data : [2.89, 0.64, 2.39, 2.76, 1.20, 0.57, 2.21, 1.83, 1.78, 0.18, 4.03, 0.47, 0.75, 0.27, 2.97, 1.35, 2.76, 1.09, 3.79, 2.24, 0.66, 0.80, 1.65, 3.97, 1.25, 0.42, 1.65, 1.27, 0.2]
+		},
+		{
+			label: "Promedio",
+			fillColor : "rgba(72,174,209,0.4)",
+			strokeColor : "rgba(72,174,209,0.4)",
+			data : [1.72,1.72,1.72,1.72,1.72,1.72,1.72,1.72,1.72,1.72,1.72,1.72,1.72,1.72,1.72,1.72,1.72,1.72,1.72,1.72,1.72,1.72,1.72,1.72,1.72,1.72,1.72,1.72,1.72,]
+		}
+
+			]
+			}
+
+	var myLineChart3 = new Chart(document.getElementById("layer3").getContext("2d")).Bar(barDataINV);
+	document.getElementById("legendDiv3").innerHTML = myLineChart3.generateLegend();		
+
+
+canvasesdiv.style.display = 'inline'
+legendDiv.style.display = 'inline'
+canvasesdiv2.style.display = 'none'
+legendDiv2.style.display = 'none'
+canvasesdiv3.style.display = 'none'
+legendDiv3.style.display = 'none'
+
+function aparecerGrafico(id1, id2, id3, id4, id5, id6){
+	id1.style.display = 'inline'
+	id2.style.display = 'inline'
+	id3.style.display = 'none'
+	id4.style.display = 'none'
+	id5.style.display = 'none'
+	id6.style.display = 'none'
+}
+   	</script>
+    
+	
+    	
+	
+	
+    </body>
+</html>
